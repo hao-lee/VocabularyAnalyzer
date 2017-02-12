@@ -3,8 +3,15 @@
 import urllib.parse
 import urllib.request
 import json
+import re
 
 # Phonetic Transcription Interpreter
+
+def tokenizer(sourcestring):
+	sourcestring = str.lower(sourcestring)
+	pattern = re.compile(r'\w+')
+	word_list = pattern.findall(sourcestring)	
+	return word_list
 
 def interpreter(word, word_css_class, phonetic_css_class):
 	api_url = "http://fanyi.youdao.com/openapi.do"
@@ -34,14 +41,14 @@ def interpreter(word, word_css_class, phonetic_css_class):
 	if errorCode == 0: # OK
 		basic = json_data.get('basic')
 		if basic == None:
-			us_phonetic = "unknown"
+			us_phonetic = "----"
 		else:
 			us_phonetic = basic.get('us-phonetic')
 			if us_phonetic == None: # 可能没有音标
-				us_phonetic = "unknown"
+				us_phonetic = "----"
 		
 	else:
-		us_phonetic = "unknown"
+		us_phonetic = "----"
 	#生成如下的HTML结构
 	#<div>
 	#	<p class="word_css_class">bed</p>
@@ -56,9 +63,6 @@ def interpreter(word, word_css_class, phonetic_css_class):
 	return word_phonetic_html_pairs
 
 if __name__ == '__main__':
-
-	#fd = open(r'text.txt', mode='rt', encoding='utf-8')
-	#text = fd.read()
 	fd = open(r'text.txt', mode='rt', encoding='utf-8')
 	text = fd.readlines()
 	html_block = ""
@@ -66,7 +70,7 @@ if __name__ == '__main__':
 	for line in text:
 		# 行首加一格空的div，以便换行
 		html_block += "<div class=\"split-line\"></div>"
-		for word in line.split():
+		for word in tokenizer(line):
 			html_block += interpreter(word, 'word', 'phonetic')
 
 	fd = open(r'part-1.html', mode='rt', encoding='utf-8')
