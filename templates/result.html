@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>音标解释器</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	</head>
+	<body>
+	<!-- 	<div class="group">
+		<p class="word">word1</p>
+		<p class="pronunciation">pos1:pron1</p>
+	</div> -->
+	{{ content_block|safe }}
+	</body>
+	<script type="text/javascript">
+		<!--refer_dict_str是由Python字典直接dumps出的json字符串，用safe禁止HTML转义似乎就直接成了JavaScript Object了-->
+		json_object = {{ refer_dict_str|safe }};
+		group_list = document.querySelectorAll(".group");
+		for (var i = 0; i < group_list.length; i++) {
+			console.log(group_list[i]);
+			group_list[i].addEventListener("click", next);
+		}
+		function next(){
+			target_word = this.querySelector(".word").innerHTML;
+			length = json_object[target_word]["pos_pron"].length;
+			index = json_object[target_word]["index"]
+			index = (index+1) % (length);
+			json_object[target_word]["index"] = index;
+			this.querySelector(".pronunciation").innerHTML = json_object[target_word]["pos_pron"][index]
+			console.log(json_object[target_word]["pos_pron"][index]);
+		}
+	</script>
+</html>

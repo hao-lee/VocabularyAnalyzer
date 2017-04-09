@@ -27,13 +27,13 @@ p {
 }
 .word {
 }
-.phonetic {
+.pronunciation {
 	background-color: #ffbbee;
 }
-.split-line {
+.no-data {
 	clear: left;
 	/*visibility: hidden;*/
 	height: 71px;
-	width: 20px;
+	width: 3px;
 	background-color: grey;
 }
