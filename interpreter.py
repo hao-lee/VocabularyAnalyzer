@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template
-import re
-import os
+from flask import request, render_template, Blueprint
 import json
 import sqlite3
 import nlp
@@ -10,13 +8,16 @@ import cambridge_crawler
 
 # Phonetic Transcription Interpreter
 
-app = Flask(__name__)
-app.static_folder = 'static'
-@app.route('/phonetic_transcription_interpreter', methods=['GET'])
-def submit_page():
+# 创建 Blueprint
+bp_pti = Blueprint("Phonetic Transcription Interpreter", __name__)
+
+# 提交文本的页面
+@bp_pti.route('/phonetic_transcription_interpreter', methods=['GET'])
+def submit():
 	return render_template('submit.html')
 
-@app.route('/phonetic_transcription_interpreter', methods=['POST'])
+# 处理数据并返回结果页面
+@bp_pti.route('/phonetic_transcription_interpreter', methods=['POST'])
 def processing():
 	text = request.form["text"]
 	# 断句分词
@@ -59,7 +60,3 @@ def processing():
 	return render_template('result.html',
 	                       refer_dict_str=refer_dict_str,
 	                       content_block=content_block)
-
-if __name__ == '__main__':
-	app.run()
-	#interpreter('source_text.txt')
