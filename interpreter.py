@@ -14,7 +14,7 @@ bp_pti = Blueprint("Phonetic Transcription Interpreter", __name__)
 # 提交文本的页面
 @bp_pti.route('/phonetic_transcription_interpreter', methods=['GET'])
 def submit():
-	return render_template('submit.html')
+	return render_template('pti_submit.html')
 
 # 处理数据并返回结果页面
 @bp_pti.route('/phonetic_transcription_interpreter', methods=['POST'])
@@ -57,6 +57,6 @@ def processing():
 		# 一行拼接完成
 	# 循环完成后，HTML 片段生成完毕
 	print(refer_dict_str)
-	return render_template('result.html',
+	return render_template('pti_result.html',
 	                       refer_dict_str=refer_dict_str,
 	                       content_block=content_block)
