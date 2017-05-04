@@ -67,7 +67,7 @@ def crawler(word):
 	                                  attrs={"class":"entry-body__el"})
 	
 	# 对每个entry_body_el做提取处理，每个entry_body_el都代表一种词性
-	pos_pron = []
+	pos_pron = []  # 不做去重处理（一般不会出现重复）
 	for entry_body_el in entry_body_el_list:
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
