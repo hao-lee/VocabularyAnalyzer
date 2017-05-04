@@ -18,21 +18,21 @@ def get_pos(entry_body_el):
 
 def get_pron(entry_body_el):
 	'''
-	找出所有的 <span pron-region="US" class="pron-info">，
-	再从里面搜索出<span class="pron">
-	不直接搜索pron标签是因为这可能会混入动词过去式/过去分词(Irregular inflection)的音标，
-	例如have词条
+	entry_body_el 包含某单词一个词性的全部内容，<span class="pron"> 标签内就是音标，
+	但直接搜索该标签可能会混入动词过去式/过去分词(Irregular inflection)的音标，例如(have词条)，
+	所以，需要首先找出 <span pron-region="US" class="pron-info"> 标签，然后再在其内部
+	找出 <span class="pron"> 标签。
+	另外，不必担心某个词性的多音问题，因为多个音在网页上被合成到同一个//内当作一个音标整体，不会落下。
 	'''
-	pron_info_list = entry_body_el.find_all(name="span", attrs={"pron-region":"US","class":"pron-info"})
-	'''
-	每个 pron-info 标签里面只有一个 pron 标签，所以用find即可
-	(当然，pron_info_list可能本身就是个空list，比如字母s的第2、3个词性，此时本函数最终返回空字符串)
-	'''
-	pron_set = set([])  # 收集音标，同时去重
-	for pron_info in pron_info_list:
-		pron_tag = pron_info.find(name="span", attrs={"class":"pron"})
-		pron_set.add(pron_tag.get_text())
-	return ','.join(pron_set)  # 转为字符串，可能包含多种发音，也可能是个空串
+	pron_info = entry_body_el.find(name="span", attrs={"pron-region":"US","class":"pron-info"})
+	if pron_info is None:  # 单词 democratic 的 pron-info 标签没有 pron-region 属性
+		pron_info = entry_body_el.find(name="span", attrs={"class":"pron-info"})
+	if pron_info is None:  # 如果还是空，那就是根本没音标了，例如字母 s 的第二个词性
+		return "NO-PRON"
+	pron_tag = pron_info.find(name="span", attrs={"class":"pron"})
+	if pron_tag is None:
+		return "NO-PRON"
+	return pron_tag.get_text()
 
 '''
 @return 返回一个list，存储了word这个单词不同词性的音标
