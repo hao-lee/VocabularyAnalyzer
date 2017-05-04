@@ -26,13 +26,13 @@ def get_pron(entry_body_el):
 	pron_info_list = entry_body_el.find_all(name="span", attrs={"pron-region":"US","class":"pron-info"})
 	'''
 	每个 pron-info 标签里面只有一个 pron 标签，所以用find即可
-	(当然，pron_info_list可能本身就是个空list，比如字母s的第2/3个词性，此时本函数最终返回空字符串)
+	(当然，pron_info_list可能本身就是个空list，比如字母s的第2、3个词性，此时本函数最终返回空字符串)
 	'''
-	pron_set = set([])
+	pron_set = set([])  # 收集音标，同时去重
 	for pron_info in pron_info_list:
 		pron_tag = pron_info.find(name="span", attrs={"class":"pron"})
 		pron_set.add(pron_tag.get_text())
-	return ','.join(pron_set)
+	return ','.join(pron_set)  # 转为字符串，可能包含多种发音，也可能是个空串
 
 '''
 @return 返回一个list，存储了word这个单词不同词性的音标
