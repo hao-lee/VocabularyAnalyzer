@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 def get_pos(entry_body_el):
 	pos_header = entry_body_el.find(name="div", attrs={"class":"pos-header"})
 	pos_tag = pos_header.find(name="span", attrs={"class":"pos"})
+	if pos_tag is None:  # 有些单词没有词性，例如 taken
+		return "NO-POS"
 	return pos_tag.string
 
 def get_pron(entry_body_el):
