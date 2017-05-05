@@ -4,18 +4,11 @@ import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 
-# 将 treebank 的词性标记转换为 worknet 词性标记
-def convert_to_wordnet_tag(treebank_tag):
-	if treebank_tag.startswith('J'):
-		return wordnet.ADJ
-	elif treebank_tag.startswith('V'):
-		return wordnet.VERB
-	elif treebank_tag.startswith('N'):
-		return wordnet.NOUN
-	elif treebank_tag.startswith('R'):
-		return wordnet.ADV
-	else:
-		return wordnet.NOUN	#默认当作名词处理
+# 正则分词
+def regex_tokenizer(content):
+	pattern = re.compile(r'\w+')
+	wordlist = pattern.findall(content)
+	return wordlist
 
 # NLP 断句
 def sentence_tokenizer(text):
@@ -48,13 +41,20 @@ def nltk_lemmatizer(wordlist):
 		lemma = wordnet_lemmatizer.lemmatize(word, tag)
 		lemmalist.append(lemma)
 	return list(set(lemmalist))  # 去重后返回
-	
-	
-# 正则分词
-def regex_tokenizer(content):
-	pattern = re.compile(r'\w+')
-	wordlist = pattern.findall(content)
-	return wordlist
+
+# 将 treebank 的词性标记转换为 worknet 词性标记
+def convert_to_wordnet_tag(treebank_tag):
+	if treebank_tag.startswith('J'):
+		return wordnet.ADJ
+	elif treebank_tag.startswith('V'):
+		return wordnet.VERB
+	elif treebank_tag.startswith('N'):
+		return wordnet.NOUN
+	elif treebank_tag.startswith('R'):
+		return wordnet.ADV
+	else:
+		return wordnet.NOUN	#默认当作名词处理
+
 
 if __name__ == '__main__':
 	text = '''
