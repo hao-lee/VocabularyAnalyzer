@@ -25,8 +25,6 @@ def sentence_tokenizer(text):
 
 # NLP 分词
 def nltk_tokenizer(content):
-	#转为小写（不转似乎也没影响）
-	content = content.lower()
 	wordlist = nltk.word_tokenize(content)	#分词
 	return wordlist	
 
@@ -54,7 +52,6 @@ def nltk_lemmatizer(wordlist):
 	
 # 正则分词
 def regex_tokenizer(sourcestring):
-	sourcestring = str.lower(sourcestring)
 	pattern = re.compile(r'\w+')
 	wordlist = pattern.findall(sourcestring)	
 	return wordlist
