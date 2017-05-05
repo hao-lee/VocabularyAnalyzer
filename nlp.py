@@ -51,9 +51,9 @@ def nltk_lemmatizer(wordlist):
 	
 	
 # 正则分词
-def regex_tokenizer(sourcestring):
+def regex_tokenizer(content):
 	pattern = re.compile(r'\w+')
-	wordlist = pattern.findall(sourcestring)	
+	wordlist = pattern.findall(content)
 	return wordlist
 
 if __name__ == '__main__':
