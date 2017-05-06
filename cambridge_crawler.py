@@ -68,14 +68,14 @@ def crawler(word, need_pos=True):
 	                                  attrs={"class":"entry-body__el"})
 	
 	# 对每个entry_body_el做提取处理，每个entry_body_el都代表一种词性
-	pos_pron = []  # 不做去重处理（一般不会出现重复）
+	pos_pron = []
 	for entry_body_el in entry_body_el_list:
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
 		if need_pos:
 			pos_pron.append(pos + ":" + pron)
-		else:
-			pos_pron.append(pron)
+		else:  # 在不拼接词性的情况下，pos_pron 可能存在重复项
+			pos_pron.append(pron) if pron not in pos_pron else None
 	
 	# 注意这是一个list，因为一个词可能有多个词性
 	return pos_pron
