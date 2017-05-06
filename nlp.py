@@ -5,24 +5,24 @@ from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 
 # 正则分词
-def regex_tokenizer(content):
+def regex_word_tokenizer(content):
 	pattern = re.compile(r'\w+')
 	wordlist = pattern.findall(content)
 	return wordlist
 
 # NLP 断句
-def sentence_tokenizer(text):
+def nltk_sentence_tokenizer(text):
 	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 	sentence_list = tokenizer.tokenize(text)
 	return sentence_list
 
 # NLP 分词
-def nltk_tokenizer(content):
+def nltk_word_tokenizer(content):
 	wordlist = nltk.word_tokenize(content)	#分词
 	return wordlist	
 
 # NLP 词形还原
-def nltk_lemmatizer(wordlist):
+def nltk_word_lemmatizer(wordlist):
 	'''
 	打标签	
 	'''
@@ -62,8 +62,8 @@ if __name__ == '__main__':
 	And you are a worker.
 	What about him?
 	'''
-	sentence_list = sentence_tokenizer(text)
+	sentence_list = nltk_sentence_tokenizer(text)
 	for sentence in sentence_list:
-		wordlist = nltk_tokenizer(sentence)
-		lemmalist = nltk_lemmatizer(wordlist)
+		wordlist = nltk_word_tokenizer(sentence)
+		lemmalist = nltk_word_lemmatizer(wordlist)
 		pass

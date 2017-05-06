@@ -22,8 +22,8 @@ def processing():
 	text = request.form["text"]
 	# 断句分词
 	matrix = []  # 每行都是句子被分词之后的
-	for sentence in nlp.sentence_tokenizer(text):
-		matrix.append(nlp.regex_tokenizer(sentence))
+	for sentence in nlp.nltk_sentence_tokenizer(text):
+		matrix.append(nlp.regex_word_tokenizer(sentence))
 	'''
 	生成字典，其对应的json字符串如下：
 	refer_dict_str = '{

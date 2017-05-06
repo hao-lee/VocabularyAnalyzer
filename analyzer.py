@@ -53,8 +53,8 @@ def processing():
 	save_log(user_ip, text)
 	
 	start_time = time.time()  # 计时起点
-	wordlist = nlp.nltk_tokenizer(text)
-	lemmalist = nlp.nltk_lemmatizer(wordlist)
+	wordlist = nlp.nltk_word_tokenizer(text)
+	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
 	result = collections.OrderedDict()
 	for word in lemmalist:  # 对每一个待查词汇
 		if word in difficult_word_set:  # 如果它在高阶词典里
