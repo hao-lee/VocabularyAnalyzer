@@ -78,6 +78,7 @@ def crawler(word, need_pos=True):
 			pos_pron.append(pron) if pron not in pos_pron else None
 	
 	# 注意这是一个list，因为一个词可能有多个词性
+	# 形如：["pos1:pron1", "pos2:pron1", "pos3:pron2"]
 	return pos_pron
 
 if __name__ == '__main__':
