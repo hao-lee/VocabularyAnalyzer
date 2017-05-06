@@ -57,6 +57,7 @@ def processing():
 				"</div>\n"
 		# 一行拼接完成
 	# 循环完成后，HTML 片段生成完毕
+
 	# print(refer_dict_str)
 	return render_template('pti_result.html',
 	                       refer_dict_str=refer_dict_str,
