@@ -25,8 +25,8 @@ def processing():
 	for sentence in nlp.nltk_sentence_tokenizer(text):
 		matrix.append(nlp.nltk_word_tokenizer(sentence))
 	'''
-	生成字典，其对应的json字符串如下：
-	refer_dict_str = '{
+	生成字典，格式如下：
+	refer_dict = '{
 		"word1":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0},
 		"word2":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0},
 		"word3":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0}
