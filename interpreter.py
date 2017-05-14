@@ -35,8 +35,7 @@ def processing():
 	refer_dict = {}
 	for row in matrix: # 一行
 		for word in row: # 行中某个词
-			# need_pos=False 为了简洁起见，不返回与音标对应的词性
-			pos_pron = cambridge_crawler.crawler(word.lower(), need_pos=False)
+			pos_pron = cambridge_crawler.crawler(word.lower())
 			# pos_pron 是一个list，存储了该单词每个词性的音标
 			refer_dict[word] = {"pos_pron":pos_pron, "index":0}
 	

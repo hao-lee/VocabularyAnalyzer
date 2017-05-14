@@ -37,9 +37,8 @@ def get_pron(entry_body_el):
 '''
 @return 返回一个list，存储了word这个单词不同词性的音标
 ["pos1:pron1", "pos2:pron2", "pos3:pron3",]
-@need_pos 是否需要返回与音标对应的词性，默认返回
 '''
-def crawler(word, need_pos=True):
+def crawler(word):
 	print("Current Word: %s" %word)
 	base_url = "http://dictionary.cambridge.org/us/search/english/direct/?q="
 	r=requests.get(base_url + word)
@@ -72,10 +71,7 @@ def crawler(word, need_pos=True):
 	for entry_body_el in entry_body_el_list:
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
-		if need_pos:
-			pos_pron.append(pos + ":" + pron)
-		else:  # 在不拼接词性的情况下，pos_pron 可能存在重复项
-			pos_pron.append(pron) if pron not in pos_pron else None
+		pos_pron.append(pos + ":" + pron)
 	
 	# 注意这是一个list，因为一个词可能有多个词性
 	# 形如：["pos1:pron1", "pos2:pron1", "pos3:pron2"]
