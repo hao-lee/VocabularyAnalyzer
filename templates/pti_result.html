@@ -7,14 +7,13 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	</head>
 	<body>
-	<!-- 	<div class="group">
-		<p class="word">word1</p>
-		<p class="pronunciation">pos1:pron1</p>
-	</div> -->
 	{{ content_block|safe }}
 	</body>
 	<script type="text/javascript">
-		<!--refer_dict_str是由Python字典直接dumps出的json字符串，用safe禁止HTML转义似乎就直接成了JavaScript Object了-->
+		/*
+		 * refer_dict_str是由Python字典直接dumps出的json字符串，
+		 * 用safe禁止HTML转义似乎就直接成了JavaScript Object了
+		 */
 		json_object = {{ refer_dict_str|safe }};
 		group_list = document.querySelectorAll(".group");
 		for (var i = 0; i < group_list.length; i++) {
