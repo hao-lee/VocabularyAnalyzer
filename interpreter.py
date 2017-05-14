@@ -48,12 +48,14 @@ def processing():
 		# 行首加一格空的div，以便换行
 		content_block += "<div class=\"no-data\"></div>"		
 		for word in row: # 行中某个词
-			pos_pron = refer_dict[word]["pos_pron"]
-			content_block += \
-				"<div class=\"group\">\n" +\
-				"\t<p class=\"word\">" + word + "</p>" +\
-				"\t<p class=\"pronunciation\">" + pos_pron[0] + "</p>" +\
-				"</div>\n"
+			pos_pron_element = refer_dict[word]["pos_pron"][0]
+			pos = pos_pron_element.split(":")[0]
+			pron = pos_pron_element.split(":")[1]
+			content_block += "<div class=\"group\" title=\"%s\">\n"	\
+			                  "\t<p class=\"word\">%s</p>"		\
+			                  "\t<p class=\"pronunciation\">%s</p>"	\
+			                  "</div>\n"				\
+			                  %(pos, word, pron)
 		# 一行拼接完成
 	# 循环完成后，HTML 片段生成完毕
 

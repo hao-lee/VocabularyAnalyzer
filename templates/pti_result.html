@@ -21,13 +21,30 @@
 			group_list[i].addEventListener("click", next);
 		}
 		function next(){
+			/* 获取当前单词 */
 			target_word = this.querySelector(".word").innerHTML;
+			/* 获取该单词 Fallback 数组元素个数 */
 			length = json_object[target_word]["pos_pron"].length;
-			index = json_object[target_word]["index"]
+			/* 获取当前单词正在显示的音标索引 */
+			index = json_object[target_word]["index"];
+			/* 计算下一个要显示的音标索引 */
 			index = (index+1) % (length);
+			/* 取得将要显示的音标元素 */
+			pos_pron_element = json_object[target_word]["pos_pron"][index];
+			/* 更新正在显示的音标索引 */
 			json_object[target_word]["index"] = index;
-			this.querySelector(".pronunciation").innerHTML = json_object[target_word]["pos_pron"][index]
-			console.log(json_object[target_word]["pos_pron"][index]);
+
+			/* 以冒号为基准切分字符串得到词性和音标 */
+			pos = pos_pron_element.split(":")[0];
+			pron = pos_pron_element.split(":")[1];
+
+			/* 切换音标 */
+			this.querySelector(".pronunciation").innerHTML = pron;
+			/* 切换 title 属性指示当前词性 */
+			this.title = pos;
+
+			/* 打印日志 */
+			console.log("Click " + target_word);
 		}
 	</script>
 </html>
