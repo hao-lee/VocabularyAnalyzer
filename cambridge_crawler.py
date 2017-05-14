@@ -46,10 +46,10 @@ def crawler(word):
 	#print(r.history)
 	if r.status_code == 404:
 		print("单词查不到，状态码 %d" %r.status_code)
-		return [""]
+		return [":"]
 	if r.url.startswith("http://dictionary.cambridge.org/us/spellcheck/english/"):
 		print("单词查不到，已跳转拼写检查，状态码 %d" %r.status_code)
-		return [""]
+		return [":"]
 	soup = BeautifulSoup(r.text, "lxml")
 	# 获取American子页面的内容
 	tabs_content = soup.find(name="div",attrs={"data-tab":"ds-american-english"})
@@ -58,7 +58,7 @@ def crawler(word):
 		tabs_content = soup.find(name="div",attrs={"data-tab":"ds-british"})
 		if tabs_content is None:
 			# 这也没有那就算查不着
-			return [""]
+			return [":"]
 	'''
 	搜索出所有<div class="entry-body__el clrd js-share-holder">
 	record 有3个entry-body__el，每个都包含了以一种词性的音标和释义
