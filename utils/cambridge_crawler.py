@@ -39,7 +39,6 @@ def get_pron(entry_body_el):
 ["pos1:pron1", "pos2:pron2", "pos3:pron3",]
 '''
 def crawler(word):
-	print("Current Word: %s" %word)
 	base_url = "http://dictionary.cambridge.org/us/search/english/direct/?q="
 	r=requests.get(base_url + word)
 	#print(r.status_code)
