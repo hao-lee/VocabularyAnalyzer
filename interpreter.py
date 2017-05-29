@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import sys
+sys.path.append("utils")
 from flask import request, render_template, Blueprint
 import json
 import sqlite3
