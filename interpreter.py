@@ -7,6 +7,7 @@ import json
 import sqlite3
 import nlp
 import cambridge_crawler
+import database
 
 # Phonetic Transcription Interpreter
 
@@ -27,23 +28,39 @@ def processing():
 	for sentence in nlp.nltk_sentence_tokenizer(text):
 		matrix.append(nlp.nltk_word_tokenizer(sentence))
 	'''
-	生成字典，格式如下：
+	生成参考字典，其格式如下：
 	refer_dict = '{
 		"word1":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0},
 		"word2":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0},
 		"word3":{"pos_pron":["pos1:pron1", "pos2:pron2,pron3"], "index":0}
 	}'
 	'''
+	# refer_dict 用于转为 json 字符串并写入 HTML 页面供 JavaScript 使用
 	refer_dict = {}
+	# wait_to_save 用于暂时存储将要写入数据库的新词数据：{"word":"pos_pron",...}
+	wait_to_save = {}
+	db = database.DatabaseManager()
+	db.open()
 	for row in matrix: # 一行
 		for word in row: # 行中某个词
-			pos_pron = cambridge_crawler.crawler(word.lower())
+			print("Current Word: %s" %word)
+			pos_pron_str = db.query(word)
+			if pos_pron_str is not None:
+				# 数据库查出的是字符串，要转为list类型
+				pos_pron = json.loads(pos_pron_str)
+				print("Hit in DB cache.")
+			else:
+				pos_pron = cambridge_crawler.crawler(word.lower())
+				# 传给数据库时保证键值都是字符串类型
+				wait_to_save[word] = json.dumps(pos_pron)
+				print("Crawl from URL.")
 			# pos_pron 是一个list，存储了该单词每个词性的音标
 			refer_dict[word] = {"pos_pron":pos_pron, "index":0}
 	
-	# 字典转json字符串
-	refer_dict_str = json.dumps(refer_dict)
-
+	# 将新的数据保存到数据库
+	db.save_to_db(wait_to_save)
+	db.close()
+	
 	# 组装 HTML 片段
 	content_block = ""
 	for row in matrix: # 一行
@@ -60,6 +77,9 @@ def processing():
 			                  %(pos, word, pron)
 		# 一行拼接完成
 	# 循环完成后，HTML 片段生成完毕
+
+	# 字典转json字符串
+	refer_dict_str = json.dumps(refer_dict)
 
 	# print(refer_dict_str)
 	return render_template('pti_result.html',
