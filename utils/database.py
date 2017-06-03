@@ -6,23 +6,28 @@ class DatabaseManager:
 		self.con = None
 		self.cursor = None
 
-	def create_db(self):
-		sql = '''
-		CREATE TABLE "core_data" (
-		"word"  TEXT,
-		"pos_pron_str"  TEXT,
-		PRIMARY KEY ("word")
-		);
-		'''
-		self.cursor.execute(sql)	
+	def check_table_exist(self):
+		self.cursor.execute('''
+			SELECT name FROM sqlite_master
+		        WHERE type='table' AND name='core_data';
+		''')
+		results = self.cursor.fetchall()
+		# 如果表不存在则创建
+		if len(results) == 0:
+			self.cursor.execute('''
+				CREATE TABLE "core_data" (
+				"word"  TEXT,
+				"pos_pron_str"  TEXT,
+				PRIMARY KEY ("word")
+				);
+			''')
 
 	def open(self):
 		# Flask 运行时，本代码的执行路径是在源码根目录下
-		if not os.path.exists("data/pti.db"):
-			self.create_db()
 		# 自动commit：https://my.oschina.net/tinyhare/blog/719039
 		self.con = sqlite3.connect("data/pti.db", isolation_level=None)
 		self.cursor = self.con.cursor()
+		self.check_table_exist()
 
 	def close(self):
 		self.con.close()
