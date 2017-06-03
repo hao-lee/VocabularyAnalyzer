@@ -8,24 +8,6 @@ import requests, json
 import collections, time
 from collections import OrderedDict
 
-'''
-数据预读取
-'''
-# 读取词频表，注意要用list，保证次序（排名）
-coca_word_list = []
-with open("data/coca-20000.txt", 'r', encoding='utf-8') as fd:
-	for line in fd.readlines():
-		coca_word_list.append(line.strip('\n'))
-
-# 读取难词表
-difficult_word_list = []
-with open("data/total.txt", 'r', encoding='utf-8') as fd:
-	for line in fd.readlines():
-		difficult_word_list.append(line.strip('\n'))
-
-# 转换为 set 查找效率更高		
-difficult_word_set = set(difficult_word_list)
-
 
 '''
 Vocabulary Analyzer
@@ -41,6 +23,13 @@ def submit():
 # 处理数据并返回结果页面
 @bp_va.route('/vocabulary_analyzer', methods=['POST'])
 def processing():
+	# 读取词频表，注意要用list，保证次序（排名）
+	with open("data/coca-20000.txt", 'r', encoding='utf-8') as fd:
+		coca_word_list = fd.read().split()
+	# 读取难词表
+	with open("data/total.txt", 'r', encoding='utf-8') as fd:
+		difficult_word_set = set(fd.read().split()) # 转换为 set 查找效率更高
+
 	# 获取用户 IP 地址
 	user_ip = request.remote_addr
 	try:
