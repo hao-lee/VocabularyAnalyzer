@@ -28,6 +28,7 @@ def processing():
 	with open("data/words.txt") as fd:
 		ultra_word_list = fd.read().split()
 	text = request.form["text"]
+	text = text[0:2000]
 	wordlist = nlp.nltk_word_tokenizer(text)
 	'''
 	生成参考字典，其格式如下：

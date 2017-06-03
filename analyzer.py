@@ -41,6 +41,7 @@ def processing():
 		pass
 	# 获取用户输入的文本
 	text = request.form["text"]
+	text = text[0:2000]
 	# 保存日志
 	save_log(user_ip, text)
 
