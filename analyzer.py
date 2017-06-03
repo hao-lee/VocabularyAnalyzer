@@ -43,7 +43,7 @@ def processing():
 	text = request.form["text"]
 	# 保存日志
 	save_log(user_ip, text)
-	
+
 	wordlist = nlp.nltk_word_tokenizer(text)
 	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
 	result = collections.OrderedDict()
@@ -71,11 +71,11 @@ def processing():
 	elapsed_time = end_time-start_time
 	content_block = ("<h5>输入词汇数: %d 个</h5>" %text_wc) \
 	        + ("<h5>高阶词汇数: %d 个</h5>" %result_wc) \
-		+ ("<h5>执行时间: %f 秒</h5>" %elapsed_time) \
+	        + ("<h5>执行时间: %f 秒</h5>" %elapsed_time) \
 	        + content_block
 	return render_template('va_result.html',
 	                       content_block=content_block)
-	
+
 # 记录用户数据
 def save_log(user_ip, text):
 	url = ("http://freegeoip.net/json/%s" %user_ip)
@@ -87,6 +87,6 @@ def save_log(user_ip, text):
 	# 保存文件
 	with open("va.log", 'a', encoding='utf-8') as fd:
 		log = ("User IP: %s, Country: %s, Region: %s, City: %s\n\n"
-			%(user_ip, country, region, city))
+		       %(user_ip, country, region, city))
 		log += text + "\n\n"
 		fd.write(log)

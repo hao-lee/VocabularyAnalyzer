@@ -41,7 +41,7 @@ class DatabaseManager:
 			        (word, pos_pron_str) VALUES(?,?)
 			        ''', (word, pos_pron_str))
 		self.cursor.execute("END TRANSACTION")
-		
+
 	def query(self, word):
 		self.cursor.execute('''
 				SELECT core_data.pos_pron_str

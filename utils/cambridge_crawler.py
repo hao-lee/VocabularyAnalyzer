@@ -63,15 +63,15 @@ def crawler(word):
 	record 有3个entry-body__el，每个都包含了以一种词性的音标和释义
 	'''
 	entry_body_el_list = tabs_content.find_all(name="div",
-	                                  attrs={"class":"entry-body__el"})
-	
+					attrs={"class":"entry-body__el"})
+
 	# 对每个entry_body_el做提取处理，每个entry_body_el都代表一种词性
 	pos_pron = []
 	for entry_body_el in entry_body_el_list:
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
 		pos_pron.append(pos + ":" + pron)
-	
+
 	# 注意这是一个list，因为一个词可能有多个词性
 	# 形如：["pos1:pron1", "pos2:pron1", "pos3:pron2"]
 	return pos_pron

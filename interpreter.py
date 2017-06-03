@@ -66,7 +66,7 @@ def processing():
 	# 将新的数据保存到数据库
 	db.save_to_db(wait_to_save)
 	db.close()
-	
+
 	# 组装 HTML 片段
 	content_block = ""
 	for word in wordlist:
@@ -88,7 +88,7 @@ def processing():
 	end_time = time.time()  # 计时终点
 	elapsed_time = end_time-start_time
 	content_block = ("<h5>输入词汇数: %d 个</h5>" %text_wc) \
-		+ ("<h5>执行时间: %f 秒</h5>" %elapsed_time) \
+	        + ("<h5>执行时间: %f 秒</h5>" %elapsed_time) \
 	        + content_block
 	return render_template('pti_result.html',
 	                       refer_dict_str=refer_dict_str,
