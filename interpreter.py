@@ -22,6 +22,9 @@ def submit():
 # 处理数据并返回结果页面
 @bp_pti.route('/phonetic_transcription_interpreter', methods=['POST'])
 def processing():
+	# 读取用于拼写检查的超级单词表
+	with open("data/words.txt") as fd:
+		ultra_word_list = fd.read().split()
 	text = request.form["text"]
 	# 断句分词
 	matrix = []  # 每行都是句子被分词之后的
@@ -44,6 +47,11 @@ def processing():
 	for row in matrix: # 一行
 		for word in row: # 行中某个词
 			print("Current Word: %s" %word)
+			# 首先检测 word 是不是英语单词
+			if word.lower() not in ultra_word_list:
+				refer_dict[word.lower()] = {"pos_pron":[":"], "index":0}
+				print("%s 不是英语单词" %word)
+				continue
 			pos_pron_str = db.query(word.lower())
 			if pos_pron_str is not None:
 				# 数据库查出的是字符串，要转为list类型
