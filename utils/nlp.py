@@ -40,7 +40,7 @@ def nltk_word_lemmatizer(wordlist):
 	for word, tag in wordnet_tagged:  # 遍历 tuple 组成的 list
 		lemma = wordnet_lemmatizer.lemmatize(word, tag)
 		lemmalist.append(lemma)
-	return list(set(lemmalist))  # 去重后返回
+	return lemmalist
 
 # 将 treebank 的词性标记转换为 worknet 词性标记
 def convert_to_wordnet_tag(treebank_tag):
