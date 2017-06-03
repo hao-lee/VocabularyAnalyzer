@@ -96,8 +96,8 @@ def processing():
 	# print(refer_dict_str)
 	end_time = time.time()  # 计时终点
 	elapsed_time = end_time-start_time
-	content_block = ("<h5>输入词汇数: %d</h5>" %text_wc) \
-		+ ("<h5>执行时间: %f</h5>" %elapsed_time) \
+	content_block = ("<h5>输入词汇数: %d 个</h5>" %text_wc) \
+		+ ("<h5>执行时间: %f 秒</h5>" %elapsed_time) \
 	        + content_block
 	return render_template('pti_result.html',
 	                       refer_dict_str=refer_dict_str,
