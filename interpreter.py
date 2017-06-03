@@ -44,7 +44,7 @@ def processing():
 	for row in matrix: # 一行
 		for word in row: # 行中某个词
 			print("Current Word: %s" %word)
-			pos_pron_str = db.query(word)
+			pos_pron_str = db.query(word.lower())
 			if pos_pron_str is not None:
 				# 数据库查出的是字符串，要转为list类型
 				pos_pron = json.loads(pos_pron_str)
@@ -52,10 +52,10 @@ def processing():
 			else:
 				pos_pron = cambridge_crawler.crawler(word.lower())
 				# 传给数据库时保证键值都是字符串类型
-				wait_to_save[word] = json.dumps(pos_pron)
+				wait_to_save[word.lower()] = json.dumps(pos_pron)
 				print("Crawl from URL.")
 			# pos_pron 是一个list，存储了该单词每个词性的音标
-			refer_dict[word] = {"pos_pron":pos_pron, "index":0}
+			refer_dict[word.lower()] = {"pos_pron":pos_pron, "index":0}
 	
 	# 将新的数据保存到数据库
 	db.save_to_db(wait_to_save)
@@ -67,7 +67,7 @@ def processing():
 		# 行首加一格空的div，以便换行
 		content_block += "<div class=\"no-data\"></div>"		
 		for word in row: # 行中某个词
-			pos_pron_element = refer_dict[word]["pos_pron"][0]
+			pos_pron_element = refer_dict[word.lower()]["pos_pron"][0]
 			pos = pos_pron_element.split(":")[0]
 			pron = pos_pron_element.split(":")[1]
 			content_block += "<div class=\"group\" title=\"%s\">\n"	\

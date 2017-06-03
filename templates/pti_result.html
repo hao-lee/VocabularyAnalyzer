@@ -23,6 +23,8 @@
 		function next(){
 			/* 获取当前单词 */
 			target_word = this.querySelector(".word").innerHTML;
+			/* 字典中的 key 都是小写，所以此处转为小写再去查 */
+			target_word = target_word.toLowerCase()
 			/* 获取该单词 Fallback 数组元素个数 */
 			length = json_object[target_word]["pos_pron"].length;
 			/* 获取当前单词正在显示的音标索引 */
