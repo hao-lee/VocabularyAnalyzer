@@ -27,7 +27,7 @@ def processing():
 	with open("data/coca-20000.txt", 'r', encoding='utf-8') as fd:
 		coca_word_list = fd.read().split()
 	# 读取难词表
-	with open("data/total.txt", 'r', encoding='utf-8') as fd:
+	with open("data/difficult-words.txt", 'r', encoding='utf-8') as fd:
 		difficult_word_set = set(fd.read().split()) # 转换为 set 查找效率更高
 
 	# 获取用户 IP 地址
