@@ -48,22 +48,25 @@ def processing():
 	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
 	result = collections.OrderedDict()
 	for word in lemmalist:  # 对每一个待查词汇
+		word = word.lower() # 防止大写影响查询
 		if word in difficult_word_set:  # 如果它在高阶词典里
 			try:
-				ranking = coca_word_list.index(word)  # 查找coca排名
+				index = coca_word_list.index(word)  # 查找coca排名
 			except ValueError:  # coca不包含此单词
-				ranking = -1
-			result[word] = ranking+1  # 下标加1为排名    
+				index = 99999
+			ranking = index + 1  # 下标加1为排名
+			result[word] = ranking
 	# 按照 value 排序
 	result = OrderedDict(sorted(result.items(), key=lambda t: t[1]))
 	# 组装 HTML Block
 	content_block = ""
 	for word, ranking in result.items():
+		ranking = ranking if ranking != 100000 else "比较生僻"
 		content_block += ("<tr><td>%s</td><td>%s</td></tr>" %(word, ranking))
 	content_block = "<table border=\"1\">" + content_block + "</table>"
 
 	end_time = time.time()  # 计时终点
-	text_wc = len(text.split(" "))
+	text_wc = len(wordlist)
 	result_wc = len(result)
 	elapsed_time = end_time-start_time
 	content_block = ("<h5>输入词汇数: %d</h5>" %text_wc) \
