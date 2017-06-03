@@ -23,6 +23,7 @@ def submit():
 # 处理数据并返回结果页面
 @bp_va.route('/vocabulary_analyzer', methods=['POST'])
 def processing():
+	start_time = time.time()  # 计时起点
 	# 读取词频表，注意要用list，保证次序（排名）
 	with open("data/coca-20000.txt", 'r', encoding='utf-8') as fd:
 		coca_word_list = fd.read().split()
@@ -43,7 +44,6 @@ def processing():
 	# 保存日志
 	save_log(user_ip, text)
 	
-	start_time = time.time()  # 计时起点
 	wordlist = nlp.nltk_word_tokenizer(text)
 	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
 	result = collections.OrderedDict()
@@ -65,9 +65,9 @@ def processing():
 		content_block += ("<tr><td>%s</td><td>%s</td></tr>" %(word, ranking))
 	content_block = "<table border=\"1\">" + content_block + "</table>"
 
-	end_time = time.time()  # 计时终点
 	text_wc = len(wordlist)
 	result_wc = len(result)
+	end_time = time.time()  # 计时终点
 	elapsed_time = end_time-start_time
 	content_block = ("<h5>输入词汇数: %d</h5>" %text_wc) \
 	        + ("<h5>高阶词汇数: %d</h5>" %result_wc) \
