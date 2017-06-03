@@ -36,21 +36,16 @@ class DatabaseManager:
 	def save_to_db(self, wait_to_save):
 		self.cursor.execute("BEGIN TRANSACTION")
 		for word, pos_pron_str in wait_to_save.items():
-			self.cursor.execute('''INSERT OR IGNORE INTO 
-						core_data 
-						(word, pos_pron_str) 
-						VALUES(?,?)''',
-			                	(word, pos_pron_str))
+			self.cursor.execute('''
+				INSERT OR IGNORE INTO core_data
+			        (word, pos_pron_str) VALUES(?,?)
+			        ''', (word, pos_pron_str))
 		self.cursor.execute("END TRANSACTION")
 		
 	def query(self, word):
 		self.cursor.execute('''
-				SELECT
-				core_data.pos_pron_str
-				FROM
-				core_data
-				WHERE
-				core_data.word = ?
+				SELECT core_data.pos_pron_str
+				FROM core_data WHERE core_data.word = ?
 				''', (word,))
 		'''
 		结果集是一个list，每个元素都是一个tuple，对应一行记录。
