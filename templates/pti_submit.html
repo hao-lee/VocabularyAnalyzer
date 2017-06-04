@@ -4,11 +4,12 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>音标生成工具</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style_for_submit.css') }}">
 	</head>
 	<body>
 		<form action="/phonetic_transcription_interpreter" method="post">
 			<legend>请提交文本:</legend>
-			<textarea name="text" rows="3" cols="30"></textarea>
+			<textarea name="text" maxlength="2000" autofocus></textarea>
 			<p><button type="submit">开始翻译</button></p>
 		</form>
 	</body>
