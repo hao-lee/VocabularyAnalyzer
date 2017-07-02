@@ -36,6 +36,13 @@ class DatabaseManager:
 	def save_to_db(self, wait_to_save):
 		self.cursor.execute("BEGIN TRANSACTION")
 		for word, pos_pron_str in wait_to_save.items():
+			'''
+			如果多个请求同时执行至此(可以用sleep模拟)，会造成错误
+			sqlite3.OperationalError: database is locked
+			这是因为数据库不允许同时读写。但是数据库写入应该很快，
+			所以这种情况发生的概率很小，即使发生了也不会影响其他请求，
+			所以不再进行异常处理
+			'''
 			self.cursor.execute('''
 				INSERT OR IGNORE INTO core_data
 			        (word, pos_pron_str) VALUES(?,?)
