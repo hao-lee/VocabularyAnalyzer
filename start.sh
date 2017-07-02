@@ -1,0 +1,1 @@
+NLTK_DATA="/var/nltk_data/" nohup python3 app.py > nohup.log 2>&1 &
