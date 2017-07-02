@@ -50,14 +50,16 @@ def crawler(word):
 		print("单词查不到，已跳转拼写检查，状态码 %d" %r.status_code)
 		return [":"]
 	soup = BeautifulSoup(r.text, "lxml")
-	# 获取American子页面的内容
-	tabs_content = soup.find(name="div",attrs={"data-tab":"ds-american-english"})
-	if tabs_content is None:
-		# 个别单词的American页面不存在，例如spotted，此时就用British页面
-		tabs_content = soup.find(name="div",attrs={"data-tab":"ds-british"})
-		if tabs_content is None:
-			# 这也没有那就算查不着
-			return [":"]
+
+	'''
+	直接获取 British 子页面的内容:
+	1. 某些单词(spotted)不存在 American 子页面，而 British 子页面几乎一定存在
+	2. American 子页面的音标 ɝ/ɚ 标成了 ɜr/ər，不易于理解，而 British 子页面没这个问题
+	'''
+	tabs_content = soup.find(name="div",attrs={"data-tab":"ds-british"})
+	if tabs_content is None:  # 如果没有那就算查不着
+		return [":"]
+
 	'''
 	搜索出所有<div class="entry-body__el clrd js-share-holder">
 	record 有3个entry-body__el，每个都包含了以一种词性的音标和释义
