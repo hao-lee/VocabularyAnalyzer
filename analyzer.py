@@ -7,6 +7,7 @@ import nlp
 import requests, json
 import collections, time
 from collections import OrderedDict
+import userlog
 
 
 '''
@@ -43,7 +44,7 @@ def processing():
 	text = request.form["text"]
 	text = text[0:2000]
 	# 保存日志
-	save_log(user_ip, text)
+	userlog.save_log(user_ip, text)
 
 	wordlist = nlp.nltk_word_tokenizer(text)
 	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
@@ -76,18 +77,3 @@ def processing():
 	        + content_block
 	return render_template('va_result.html',
 	                       content_block=content_block)
-
-# 记录用户数据
-def save_log(user_ip, text):
-	url = ("http://freegeoip.net/json/%s" %user_ip)
-	r = requests.get(url)
-	ip_info = json.loads(r.text)
-	country = ip_info['country_name']
-	region = ip_info['region_name']
-	city = ip_info['city']
-	# 保存文件
-	with open("va.log", 'a', encoding='utf-8') as fd:
-		log = ("User IP: %s, Country: %s, Region: %s, City: %s\n\n"
-		       %(user_ip, country, region, city))
-		log += text + "\n\n"
-		fd.write(log)
