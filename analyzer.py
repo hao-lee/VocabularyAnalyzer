@@ -32,6 +32,7 @@ def processing():
 	with open("data/difficult-words.txt", 'r', encoding='utf-8') as fd:
 		difficult_word_set = set(fd.read().split()) # 转换为 set 查找效率更高
 
+	'''
 	# 获取用户 IP 地址
 	user_ip = request.remote_addr
 	try:
@@ -40,11 +41,16 @@ def processing():
 			user_ip = real_ip
 	except Exception as e:
 		pass
+	'''
+
 	# 获取用户输入的文本
 	text = request.form["text"]
 	text = text[0:2000]
+
+	'''
 	# 保存日志
 	userlog.save_log(user_ip, text)
+	'''
 
 	wordlist = nlp.nltk_word_tokenizer(text)
 	lemmalist = nlp.nltk_word_lemmatizer(wordlist)
