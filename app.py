@@ -18,6 +18,25 @@ app.static_folder = 'static'
 app.register_blueprint(interpreter.bp_pti)
 app.register_blueprint(analyzer.bp_va)
 
+# 为了能获取到 server 对象以便关闭 app，在这里将 server 定义为全局
+server = None
+
+# 关闭 FLask 应用 http://flask.pocoo.org/snippets/67/
+@app.route('/shutdown', methods=['GET', 'POST'])
+def shutdown_app():
+	from flask import request
+	response = ""
+	shutdown = request.environ.get('werkzeug.server.shutdown')
+	if shutdown is not None:
+		response += "Running with the Werkzeug Server"
+		shutdown()
+	else:
+		response += "Running with the gevent server"
+		server.stop()
+	response += "<br>" + 'Server shutting down...'
+	print(response.replace("<br>", "\n"))
+	return response
+
 if __name__ == '__main__':
 	#app.run()  # 单纯的 Flask app
 	# 使用 gevent 异步处理请求
