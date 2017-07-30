@@ -39,8 +39,9 @@ def get_pron(entry_body_el):
 ["pos1:pron1", "pos2:pron2", "pos3:pron3",]
 '''
 def crawler(word):
+	headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"}
 	base_url = "http://dictionary.cambridge.org/us/search/english/direct/?q="
-	r=requests.get(base_url + word)
+	r=requests.get(base_url + word, headers=headers)
 	#print(r.status_code)
 	#print(r.history)
 	if r.status_code == 404:
