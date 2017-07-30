@@ -45,7 +45,7 @@ def processing():
 
 	# 获取用户输入的文本
 	text = request.form["text"]
-	text = text[0:2000]
+	text = text[0:10000]
 
 	'''
 	# 保存日志
