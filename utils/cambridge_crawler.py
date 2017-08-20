@@ -11,8 +11,12 @@ from bs4 import BeautifulSoup
 
 def get_pos(entry_body_el):
 	pos_header = entry_body_el.find(name="div", attrs={"class":"pos-header"})
+	if pos_header is None: # 极其特殊的单词
+		print("pos_header is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
+		return "NO-POS"
 	pos_tag = pos_header.find(name="span", attrs={"class":"pos"})
 	if pos_tag is None:  # 有些单词没有词性，例如 taken
+		print("pos_tag is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
 		return "NO-POS"
 	return pos_tag.string
 
@@ -22,7 +26,7 @@ def get_pron(entry_body_el):
 	但直接搜索该标签可能会混入动词过去式/过去分词(Irregular inflection)的音标，例如(have词条)，
 	所以，需要首先找出 <span pron-region="US" class="pron-info"> 标签，然后再在其内部
 	找出 <span class="pron"> 标签。
-	另外，不必担心某个词性的多音问题，因为多个音在网页上被合成到同一个//内当作一个音标整体，不会落下。
+	另外，不必担心某个词性的多音问题，因为多个音在网页上被合成到同一个/xxx,xxx/内当作一个音标整体，不会落下。
 	'''
 	pron_info = entry_body_el.find(name="span", attrs={"pron-region":"US","class":"pron-info"})
 	if pron_info is None:  # 单词 democratic 的 pron-info 标签没有 pron-region 属性
