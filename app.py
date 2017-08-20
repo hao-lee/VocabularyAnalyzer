@@ -4,7 +4,7 @@ from gevent import monkey
 monkey.patch_all()
 
 from gevent import wsgi
-from flask import Flask
+from flask import Flask, render_template
 import sys
 sys.path.append("utils")
 import interpreter
@@ -36,6 +36,12 @@ def shutdown_app():
 	response += "<br>" + 'Server shutting down...'
 	print(response.replace("<br>", "\n"))
 	return response
+
+# 处理由异常导致的服务器内部错误
+@app.errorhandler(500)
+def internal_server_error(e):
+	print("Internal Server Error:\n%s\n" %e)
+	return render_template('error.html'), 500
 
 if __name__ == '__main__':
 	#app.run()  # 单纯的 Flask app
