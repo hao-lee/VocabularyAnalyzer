@@ -26,17 +26,29 @@ def get_pron(entry_body_el):
 	但直接搜索该标签可能会混入动词过去式/过去分词(Irregular inflection)的音标，例如(have词条)，
 	所以，需要首先找出 <span pron-region="US" class="pron-info"> 标签，然后再在其内部
 	找出 <span class="pron"> 标签。
-	另外，不必担心某个词性的多音问题，因为多个音在网页上被合成到同一个/xxx,xxx/内当作一个音标整体，不会落下。
+	可能存在多音问题，例如her的第一次词性，所以要用循环扫描pron_info的兄弟借点，找出所有音标然后
+	合成出/xxx,xxx,xxx/这样的形式。
+	音标也可能不存在，例如字母 s 的第二个词性
 	'''
+	pron_tmp_list = []
 	pron_info = entry_body_el.find(name="span", attrs={"pron-region":"US","class":"pron-info"})
-	if pron_info is None:  # 单词 democratic 的 pron-info 标签没有 pron-region 属性
-		pron_info = entry_body_el.find(name="span", attrs={"class":"pron-info"})
-	if pron_info is None:  # 如果还是空，那就是根本没音标了，例如字母 s 的第二个词性
+	if pron_info is None:
 		return "NO-PRON"
-	pron_tag = pron_info.find(name="span", attrs={"class":"pron"})
-	if pron_tag is None:
-		return "NO-PRON"
-	return pron_tag.get_text()
+	while True:
+		pron_tag = pron_info.find(name="span", attrs={"class":"pron"})
+		if pron_tag is None:
+			break
+		ipa_tag = pron_tag.find(name="span", attrs={"class":"ipa"})
+		if ipa_tag is None:
+			break
+		pron_tmp_list.append(ipa_tag.get_text())
+		# 检测还有没有兄弟结点
+		pron_info = pron_info.find_next_sibling("span", attrs={"class":"pron-info"})
+		if pron_info is None:
+			break
+
+	pron = "/%s/" %(','.join(pron_tmp_list))
+	return pron
 
 '''
 @return 返回一个list，存储了word这个单词不同词性的音标
