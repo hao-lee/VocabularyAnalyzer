@@ -25,3 +25,8 @@ p {
 }
 .pronunciation {
 }
+
+.multipos {
+	cursor:pointer;
+	color:#72ACE3;
+}

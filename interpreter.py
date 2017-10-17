@@ -72,13 +72,15 @@ def processing():
 	# 组装 HTML 片段
 	content_block = ""
 	for word in wordlist:
-		pos_pron_element = refer_dict[word.lower()]["pos_pron"][0]
-		pos, pron = pos_pron_element.split(":")
-		content_block += "<div class=\"group\" title=\"%s\">\n"	\
+		pos_pron = refer_dict[word.lower()]["pos_pron"]
+		pos_pron_element = pos_pron[0] # 获取第一组词性音标，即 pos1:pron1
+		pos, pron = pos_pron_element.split(":") # 切分得到词性和音标
+		multipos = "" if len(pos_pron) == 1 else " multipos" # 若是多词性单词，则添加额外的类属性
+		content_block += "<div class=\"group%s\" title=\"%s\">\n"	\
 		        "\t<p class=\"word\">%s</p>"		\
 		        "\t<p class=\"pronunciation\">%s</p>"	\
 		        "</div>\n"				\
-		        %(pos, word, pron)
+		        %(multipos, pos, word, pron)
 	# 循环完成后，HTML 片段生成完毕
 
 	# 字典转json字符串
