@@ -45,24 +45,25 @@ def processing():
 	db = database.DatabaseManager()
 	db.open()
 	for word in wordlist:
+		word_lower = word.lower() # 解析音标统一使用小写形式
 		print("Current Word: %s" %word)
 		# 首先检测 word 是不是英语单词
-		if word.lower() not in ultra_word_list:
-			refer_dict[word.lower()] = {"pos_pron":[":"], "index":0}
+		if word_lower not in ultra_word_list:
+			refer_dict[word_lower] = {"pos_pron":[":"], "index":0}
 			print("%s 不是英语单词" %word)
 			continue
-		pos_pron_str = db.query(word.lower())
+		pos_pron_str = db.query(word_lower)
 		if pos_pron_str is not None:
 			# 数据库查出的是字符串，要转为list类型
 			pos_pron = json.loads(pos_pron_str)
 			print("Hit in DB cache.")
 		else:
-			pos_pron = cambridge_crawler.crawler(word.lower())
+			pos_pron = cambridge_crawler.crawler(word_lower) # list
 			# 传给数据库时保证键值都是字符串类型
-			wait_to_save[word.lower()] = json.dumps(pos_pron)
+			wait_to_save[word_lower] = json.dumps(pos_pron)
 			print("Crawl from URL.")
-		# pos_pron 是一个list，存储了该单词每个词性的音标
-		refer_dict[word.lower()] = {"pos_pron":pos_pron, "index":0}
+		# pos_pron 是一个list，形如：["pos1:pron1", "pos2:pron2"]
+		refer_dict[word_lower] = {"pos_pron":pos_pron, "index":0}
 
 	# 将新的数据保存到数据库
 	db.save_to_db(wait_to_save)
@@ -72,8 +73,7 @@ def processing():
 	content_block = ""
 	for word in wordlist:
 		pos_pron_element = refer_dict[word.lower()]["pos_pron"][0]
-		pos = pos_pron_element.split(":")[0]
-		pron = pos_pron_element.split(":")[1]
+		pos, pron = pos_pron_element.split(":")
 		content_block += "<div class=\"group\" title=\"%s\">\n"	\
 		        "\t<p class=\"word\">%s</p>"		\
 		        "\t<p class=\"pronunciation\">%s</p>"	\
