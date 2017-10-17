@@ -61,7 +61,7 @@ def crawler(word):
 	1. 某些单词(spotted)不存在 American 子页面，而 British 子页面几乎一定存在
 	2. American 子页面的音标 ɝ/ɚ 标成了 ɜr/ər，不易于理解，而 British 子页面没这个问题
 	'''
-	tabs_content = soup.find(name="div",attrs={"data-tab":"ds-british"})
+	tabs_content = soup.find(name="div",attrs={"data-tab":"ds-american-english"})
 	if tabs_content is None:  # 如果没有那就算查不着
 		return [":"]
 
