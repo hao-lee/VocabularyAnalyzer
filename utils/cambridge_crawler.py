@@ -85,7 +85,7 @@ def crawler(word):
 
 if __name__ == '__main__':
 	'''
-	测试单词: possibilities impossible record 
+	测试单词: possibilities impossible record
 	recall present readabilities have I a is am
 	'''
 	crawler('have')
