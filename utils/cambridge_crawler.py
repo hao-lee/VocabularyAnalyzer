@@ -11,14 +11,19 @@ from bs4 import BeautifulSoup
 
 def get_pos(entry_body_el):
 	pos_header = entry_body_el.find(name="div", attrs={"class":"pos-header"})
-	if pos_header is None: # 极其特殊的单词
+	# 该情况极少发生：hamming 跳转到的 ham it up；west的第三个词性；
+	if pos_header is None:
 		print("pos_header is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
 		return "NO-POS"
-	pos_tag = pos_header.find(name="span", attrs={"class":"pos"})
-	if pos_tag is None:  # 有些单词没有词性，例如 taken
+	# 可能存在两个词性合并的情况，例如 west 第二个词性，所以要用 find_all
+	pos_tag_list = pos_header.find_all(name="span", attrs={"class":"pos"})
+	if len(pos_tag_list) == 0:  # 有些单词没有词性，例如 taken/given/shot/thought/was/would/had
 		print("pos_tag is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
 		return "NO-POS"
-	return pos_tag.string
+	pos_list = []
+	for pos_tag in pos_tag_list:
+		pos_list.append(pos_tag.string)
+	return ','.join(pos_list)
 
 def get_pron(entry_body_el):
 	'''
