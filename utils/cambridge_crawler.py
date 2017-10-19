@@ -80,6 +80,8 @@ def crawler(word):
 	# 对每个entry_body_el做提取处理，每个entry_body_el都代表一种词性
 	pos_pron = []
 	for entry_body_el in entry_body_el_list:
+		if not verify_headword(entry_body_el, word):
+			continue
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
 		pos_pron.append(pos + ":" + pron)
@@ -87,6 +89,18 @@ def crawler(word):
 	# 注意这是一个list，因为一个词可能有多个词性
 	# 形如：["pos1:pron1", "pos2:pron1", "pos3:pron2"]
 	return pos_pron
+
+'''
+检测词条的 headword 与待查单词是否匹配
+个别单词(west 的第三个词性)，其 headword 是 the West，与 west 本身无关，应排除
+'''
+def verify_headword(entry_body_el, word):
+	headword_tag = entry_body_el.find(name="span", attrs={"class":"headword"})
+	if headword_tag.get_text() == word:
+		return True
+	else:
+		return False
+
 
 if __name__ == '__main__':
 	'''
