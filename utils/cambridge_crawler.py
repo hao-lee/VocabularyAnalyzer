@@ -13,12 +13,12 @@ def get_pos(entry_body_el):
 	pos_header = entry_body_el.find(name="div", attrs={"class":"pos-header"})
 	# 该情况极少发生：hamming 跳转到的 ham it up；west的第三个词性；
 	if pos_header is None:
-		print("pos_header is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
+		#print("pos_header is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
 		return "NO-POS"
 	# 可能存在两个词性合并的情况，例如 west 第二个词性，所以要用 find_all
 	pos_tag_list = pos_header.find_all(name="span", attrs={"class":"pos"})
 	if len(pos_tag_list) == 0:  # 有些单词没有词性，例如 taken/given/shot/thought/was/would/had
-		print("pos_tag is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
+		#print("pos_tag is None, dump entry_body_el:\n%s\n" %entry_body_el.prettify())
 		return "NO-POS"
 	pos_list = []
 	for pos_tag in pos_tag_list:
@@ -54,10 +54,10 @@ def crawler(word):
 	#print(r.status_code)
 	#print(r.history)
 	if r.status_code == 404:
-		print("单词查不到，状态码 %d" %r.status_code)
+		#print("单词查不到，状态码 %d" %r.status_code)
 		return [":"]
 	if r.url.startswith("http://dictionary.cambridge.org/us/spellcheck/english/"):
-		print("单词查不到，已跳转拼写检查，状态码 %d" %r.status_code)
+		#print("单词查不到，已跳转拼写检查，状态码 %d" %r.status_code)
 		return [":"]
 	soup = BeautifulSoup(r.text, "lxml")
 
