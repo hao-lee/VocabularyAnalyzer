@@ -17,25 +17,20 @@ def populate_database(filename):
 	wait_to_save = {}
 	db = database.DatabaseManager()
 	db.open()
-	threshold = 0
 	saved_count = 0
 	for word in wordlist:
 		word_lower = word.lower()
 		if word_lower not in ultra_word_list:
 			continue
-		pos_pron_str = db.query(word_lower)
-		if pos_pron_str is not None:
+
+		if db.query(word_lower) is not None:
+			continue
+		elif word_lower in wait_to_save:
 			continue
 		else:
 			pos_pron = cambridge_crawler.crawler(word_lower)
 			wait_to_save[word_lower] = ';'.join(pos_pron)
 			saved_count += 1
-
-		threshold += 1
-		if threshold == 100:
-			db.save_to_db(wait_to_save)
-			wait_to_save.clear()
-			threshold = 0
 
 	db.save_to_db(wait_to_save)
 	db.close()
