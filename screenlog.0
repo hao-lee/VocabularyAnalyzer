@@ -1,0 +1,38 @@
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Twilight_1.txt 
+Total Word Count: 158139
+Elapsed Time: 2311.766812s
+Saved Word Count: 7850
+lihao@lihao-pc:~/桌面/PhoneticTI$ [Klihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Twilight_1.txt [1P[1@2
+Total Word Count: 180092
+Elapsed Time: 1115.832124s
+Saved Word Count: 2709
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Twilight_2.txt [C[C[1P[1@3[C[C[C[C[C
+Total Word Count: 202663
+Elapsed Time: 1054.164882s
+Saved Word Count: 2070
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Twilight_3.txt [1P[1@4[C[C[C[C[C
+Total Word Count: 250125
+Elapsed Time: 1198.637785s
+Saved Word Count: 2226
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Twilight_4.txt [C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KI_am_number_four.txt
+Total Word Count: 131572
+Elapsed Time: 722.029198s
+Saved Word Count: 1465
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/I_am_number_four.txt[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KUnder_the_Dome.txt
+Total Word Count: 425600
+Elapsed Time: 2374.676563s
+Saved Word Count: 5407
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Under_the_Dome.txt[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KThe_Shining.txt
+Total Word Count: 205151
+Elapsed Time: 1042.120712s
+Saved Word Count: 2184
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/The_Shining.txt[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KDoctor_Sleep.txt[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KDoctor_Sleep.txt
+Total Word Count: 211015
+Elapsed Time: 890.097127s
+Saved Word Count: 1472
+lihao@lihao-pc:~/桌面/PhoneticTI$ python3 populate_db.py ebook/Doctor_Sleep.txt[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[KBusiness_at_the_Speed_of_Thought.txt
+Total Word Count: 34951
+Elapsed Time: 149.312923s
+Saved Word Count: 258
+lihao@lihao-pc:~/桌面/PhoneticTI$ exit
+exit
