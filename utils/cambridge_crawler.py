@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
+import re
 
 '''
 通常情况下，词性和音标都在pos-header里
@@ -80,7 +81,7 @@ def crawler(word):
 	# 对每个entry_body_el做提取处理，每个entry_body_el都代表一种词性
 	pos_pron = []
 	for entry_body_el in entry_body_el_list:
-		if not verify_headword(entry_body_el, word):
+		if not verify_headword(entry_body_el, word, r.url):
 			continue
 		pos = get_pos(entry_body_el)
 		pron = get_pron(entry_body_el)
@@ -95,11 +96,16 @@ def crawler(word):
 
 '''
 检测词条的 headword 与待查单词是否匹配
-个别单词(west 的第三个词性)，其 headword 是 the West，与 west 本身无关，应排除
+个别单词(west 的第三个词性，no 的第四、五个词性)需要排除部分词性条目，不能简单的
+通过校验 headword 是否等于 word 来判断，这会过滤掉被自动词形还原的单词正确的方法
+是用 headword 和最终的 URL 中的单词作比较
 '''
-def verify_headword(entry_body_el, word):
+def verify_headword(entry_body_el, word, url):
 	headword_tag = entry_body_el.find(name="span", attrs={"class":"headword"})
-	if headword_tag.get_text() == word:
+	headword = headword_tag.get_text()
+	pattern = re.compile(r'dictionary/english/([^?]*)')
+	word_in_final_url = pattern.search(url).group(1)
+	if headword == word_in_final_url:
 		return True
 	else:
 		return False
