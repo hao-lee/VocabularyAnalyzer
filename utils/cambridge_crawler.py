@@ -101,7 +101,8 @@ def crawler(word):
 '''
 def verify_headword(entry_body_el, word, url):
 	headword_tag = entry_body_el.find(name="span", attrs={"class":"headword"})
-	headword = headword_tag.get_text()
+	# 注意转为小写，否则容易忽略专有名词如American
+	headword = headword_tag.get_text().lower()
 	pattern = re.compile(r'dictionary/english/([^?]*)')
 	word_in_final_url = pattern.search(url).group(1)
 	if headword == word_in_final_url:
