@@ -12,9 +12,8 @@ textarea {
 	margin-right: auto;
 	font-size: 24px;
 }
-legend {
-	margin:0 auto;
-	font-size: 2em;
+h1 {
+	text-align: center;
 }
 p {
 	text-align: center;
